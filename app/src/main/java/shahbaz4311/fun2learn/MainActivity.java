@@ -18,6 +18,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     TextView inpField;
+    List<String> ques=getShuffledList("HtmlQuestions.txt");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,17 +26,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         inpField = findViewById(R.id.inpField);
         inpField.setText("HI");
+
+
+
+    }
+
+    private List<String> getShuffledList(String fName){
         try {
-            String quesStr=readFile("HtmlQuestions.txt");
-            String [] temp= quesStr.split("\n");
-            List<String> ques=Arrays.asList(temp);
+            List<String> ques=Arrays.asList(readFile(fName).split("\n"));
             Collections.shuffle(ques);
-            inpField.setText(ques.get(2));
+            return ques;
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
-
-
     }
 
     private String readFile(String fName) throws IOException {
