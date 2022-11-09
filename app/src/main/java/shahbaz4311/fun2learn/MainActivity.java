@@ -2,6 +2,7 @@ package shahbaz4311.fun2learn;
 
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,14 +19,33 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     TextView inpField;
-    List<String> ques=getShuffledList("HtmlQuestions.txt");
+    List<String> ques;
+    List<String> ans;
+    List<String> opts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         inpField = findViewById(R.id.inpField);
+        inpField.setMovementMethod(new ScrollingMovementMethod());
         inpField.setText("HI");
+
+
+        //Get questions,answers, and options list
+        ques=getShuffledList("HtmlQuestions.txt");
+        ans=getShuffledList("HtmlAnswers.txt");
+        opts=getShuffledList("HtmlOptions.txt");
+
+        for (String opt:opts) {
+            inpField.setText(inpField.getText()+"\n");
+            for(String str:opt.split(";")){
+                inpField.setText(inpField.getText()+"\n"+str);
+            }
+            inpField.setText(inpField.getText()+"\n\n");
+        }
+
+
 
 
 

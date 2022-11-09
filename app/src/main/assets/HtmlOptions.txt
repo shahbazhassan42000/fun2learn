@@ -1,0 +1,10 @@
+HyperText Markup Language;HighText Markup Language;HyperText Markdown Language;None of the above
+5;1;3;6
+h1;h2;h6;h4
+Ordered Unordered Lists;Bulleted Numbered Lists;Named Unnamed Lists;None of the above
+<ul>;<ol>;<href>;<b>
+.html;.h;.ht;None of the above
+{};<>;!!;None of the above
+It converts the text within it to bold font;It is used to write black-colored font;It is used to change the font size;None of the above
+HTML uses User Defined Tags;HTML uses tags defined within the language;Both A and B;None of the above
+<p>;<pre>;<hr>;All of the above

@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="HELLO"
         android:textAlignment="center"
+        android:scrollbars="vertical"
         android:textSize="20sp" />
 
 </RelativeLayout>
