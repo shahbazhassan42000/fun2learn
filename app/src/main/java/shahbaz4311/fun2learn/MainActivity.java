@@ -11,8 +11,8 @@ import com.example.counter.R;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     TextView inpField;
     List<String> ques;
     List<String> ans;
-    List<String> opts;
+    List<List<String>> opts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +35,20 @@ public class MainActivity extends AppCompatActivity {
         //Get questions,answers, and options list
         ques=getShuffledList("HtmlQuestions.txt");
         ans=getShuffledList("HtmlAnswers.txt");
-        opts=getShuffledList("HtmlOptions.txt");
+        opts=new ArrayList<>();
+        for(String opt:getShuffledList("HtmlOptions.txt")){
+            List<String> list=Arrays.asList(opt.split(";"));
+            Collections.shuffle(list);
+            opts.add(list);
+        }
 
-        for (String opt:opts) {
+        for (List<String> list:opts) {
             inpField.setText(inpField.getText()+"\n");
-            for(String str:opt.split(";")){
+            for(String str:list){
                 inpField.setText(inpField.getText()+"\n"+str);
             }
             inpField.setText(inpField.getText()+"\n\n");
         }
-
-
-
-
-
     }
 
     private List<String> getShuffledList(String fName){
