@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.counter.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,8 +18,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     TextView inpField;
-    List<String> ques;
-    List<String> ans;
+    List<String> ques, ans;
     List<List<String>> opts;
 
     @Override
@@ -33,27 +31,28 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Get questions,answers, and options list
-        ques=getShuffledList("HtmlQuestions.txt");
-        ans=getShuffledList("HtmlAnswers.txt");
-        opts=new ArrayList<>();
-        for(String opt:getShuffledList("HtmlOptions.txt")){
-            List<String> list=Arrays.asList(opt.split(";"));
+        ques = getShuffledList("HtmlQuestions.txt");
+        ans = getShuffledList("HtmlAnswers.txt");
+        opts = new ArrayList<>();
+        for (String opt : getShuffledList("HtmlOptions.txt")) {
+            List<String> list = Arrays.asList(opt.split(";"));
             Collections.shuffle(list);
             opts.add(list);
         }
 
-        for (List<String> list:opts) {
-            inpField.setText(inpField.getText()+"\n");
-            for(String str:list){
-                inpField.setText(inpField.getText()+"\n"+str);
+
+        for (List<String> list : opts) {
+            inpField.setText(inpField.getText() + "\n");
+            for (String str : list) {
+                inpField.setText(inpField.getText() + "\n" + str);
             }
-            inpField.setText(inpField.getText()+"\n\n");
+            inpField.setText(inpField.getText() + "\n\n");
         }
     }
 
-    private List<String> getShuffledList(String fName){
+    private List<String> getShuffledList(String fName) {
         try {
-            List<String> ques=Arrays.asList(readFile(fName).split("\n"));
+            List<String> ques = Arrays.asList(readFile(fName).split("\n"));
             Collections.shuffle(ques);
             return ques;
         } catch (IOException e) {
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         int size = ir.available();
         byte[] buffer = new byte[size];
         ir.read(buffer);
+        ir.close();
         return new String(buffer);
     }
 
