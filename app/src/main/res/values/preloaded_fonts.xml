@@ -2,5 +2,6 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/amatic_sc_bold</item>
+        <item>@font/handlee</item>
     </array>
 </resources>

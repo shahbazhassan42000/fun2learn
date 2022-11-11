@@ -33,7 +33,20 @@
             android:fontFamily="@font/amatic_sc_bold"
             android:text="Enter your Name"
 
-            android:textSize="24sp" />
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="Shahbaz Hassan Shahbaz Hassan Shahbaz HAssan Shahbaz h"
+
+            android:textAlignment="center"
+            android:textSize="28sp" />
 
     </LinearLayout>
 
