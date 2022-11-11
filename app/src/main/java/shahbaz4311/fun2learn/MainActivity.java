@@ -3,6 +3,8 @@ package shahbaz4311.fun2learn;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,14 +22,12 @@ public class MainActivity extends AppCompatActivity {
     TextView inpField;
     List<String> ques, ans;
     List<List<String>> opts;
+    ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        inpField = findViewById(R.id.inpField);
-        inpField.setMovementMethod(new ScrollingMovementMethod());
-        inpField.setText("HI");
 
 
         //Get questions,answers, and options list
@@ -40,14 +40,12 @@ public class MainActivity extends AppCompatActivity {
             opts.add(list);
         }
 
+        logo=findViewById(R.id.logo);
 
-        for (List<String> list : opts) {
-            inpField.setText(inpField.getText() + "\n");
-            for (String str : list) {
-                inpField.setText(inpField.getText() + "\n" + str);
-            }
-            inpField.setText(inpField.getText() + "\n\n");
-        }
+
+
+
+
     }
 
     private List<String> getShuffledList(String fName) {
