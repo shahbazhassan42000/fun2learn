@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -18,16 +21,23 @@ public class quizActivity extends AppCompatActivity {
 
     Intent intent;
     String userName;
-    TextView inpName,dateTime;
+    TextView inpName,dateTime,marks,quesInp;
+    RadioButton choice1,choice2,choice3,choice4;
+    RadioGroup choices;
     List<String> ques, ans;
     List<List<String>> opts;
+    LinearLayout main;
+    int correctAns;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        correctAns=0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         intent = getIntent();
         userName = intent.getStringExtra("userName");
+        main=findViewById(R.id.quizMainLayout);
+        main.setVerticalScrollBarEnabled(true);
 
 
         //Get questions,answers, and options list
@@ -40,10 +50,21 @@ public class quizActivity extends AppCompatActivity {
             opts.add(list);
         }
 
+
+        marks=findViewById(R.id.marks);
         inpName=findViewById(R.id.userName);
         dateTime=findViewById(R.id.dateTime);
         inpName.setText(userName);
         dateTime.setText(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
+
+        quesInp=findViewById(R.id.quesInp);
+        choice1=findViewById(R.id.choice1);
+        choice2=findViewById(R.id.choice2);
+        choice3=findViewById(R.id.choice3);
+        choice4=findViewById(R.id.choice4);
+        choices=findViewById(R.id.choices);
+
+        //show first question
 
 
 
