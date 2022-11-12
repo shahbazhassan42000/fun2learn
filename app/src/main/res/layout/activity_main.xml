@@ -45,7 +45,9 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textAlignment="center"
+                android:text=""
                 android:textSize="28sp" />
+
 
         </com.google.android.material.textfield.TextInputLayout>
         <TextView

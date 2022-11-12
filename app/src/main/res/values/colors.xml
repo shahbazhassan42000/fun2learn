@@ -16,5 +16,6 @@
     <color name="primary_varient">#200F77</color>
     <color name="red">#CF2619</color>
     <color name="secondary">#009CB2</color>
+    <color name="bg_gray">#3C3F41</color>
 
 </resources>

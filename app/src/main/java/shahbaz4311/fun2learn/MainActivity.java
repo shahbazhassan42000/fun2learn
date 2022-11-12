@@ -25,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     TextView inpName,errorMsg;
     Button startBtn;
-    List<String> ques, ans;
-    List<List<String>> opts;
-    ImageView logo;
     String userName;
 
     @Override
@@ -36,17 +33,6 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
 
-
-        //Get questions,answers, and options list
-        ques = getShuffledList("HtmlQuestions.txt");
-        ans = getShuffledList("HtmlAnswers.txt");
-        opts = new ArrayList<>();
-        for (String opt : getShuffledList("HtmlOptions.txt")) {
-            List<String> list = Arrays.asList(opt.split(";"));
-            Collections.shuffle(list);
-            opts.add(list);
-        }
-
         inpName=findViewById(R.id.inpName);
         errorMsg=findViewById(R.id.errorMsg);
         startBtn=findViewById(R.id.startBtn);
@@ -54,10 +40,11 @@ public class MainActivity extends AppCompatActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name= (String) inpName.getText();
-                if(name!=""){
+                String name= String.valueOf(inpName.getText());
+                if(!name.equals("")){
                     userName=name;
                     Intent quizIntent= new Intent(getBaseContext(), quizActivity.class);
+                    quizIntent.putExtra("userName",userName);
                     startActivity(quizIntent);
                 }else{
                     errorMsg.setText("Enter your name first to start quiz!!!");
@@ -70,33 +57,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
-
-
-
-
     }
-
-    private List<String> getShuffledList(String fName) {
-        try {
-            List<String> ques = Arrays.asList(readFile(fName).split("\n"));
-            Collections.shuffle(ques);
-            return ques;
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    private String readFile(String fName) throws IOException {
-        InputStream ir = getAssets().open(fName);
-        int size = ir.available();
-        byte[] buffer = new byte[size];
-        ir.read(buffer);
-        ir.close();
-        return new String(buffer);
-    }
-
 }
