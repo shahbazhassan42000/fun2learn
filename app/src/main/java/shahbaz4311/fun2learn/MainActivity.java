@@ -2,11 +2,10 @@ package shahbaz4311.fun2learn;
 
 
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -41,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         logo=findViewById(R.id.logo);
-
-
 
 
 
