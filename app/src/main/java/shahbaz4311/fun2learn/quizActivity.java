@@ -88,10 +88,11 @@ public class quizActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int selected=choices.getCheckedRadioButtonId();
                 if(selected==-1){
+
+
+
                     Toast.makeText(getApplicationContext(),"Please select an option",Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast t;
-
                     RadioButton selectedChoice=(RadioButton) findViewById(selected);
                     Toast.makeText(getApplicationContext(),selectedChoice.getText().toString(),Toast.LENGTH_SHORT).show();
                 }
