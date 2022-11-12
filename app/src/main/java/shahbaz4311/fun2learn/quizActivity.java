@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -68,9 +70,15 @@ public class quizActivity extends AppCompatActivity {
 
 
 
+
     }
 
 
+    private SpannableString formattedHTMLStr(String text){
+        SpannableString spanText=new SpannableString(text);
+        spanText.setSpan(new ForegroundColorSpan(getColor(R.color.yellow)),0,2,0);
+        return spanText;
+    }
     private List<String> getShuffledList(String fName) {
         try {
             List<String> ques = Arrays.asList(readFile(fName).split("\n"));
