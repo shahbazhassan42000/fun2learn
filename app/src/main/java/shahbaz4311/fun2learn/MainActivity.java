@@ -1,7 +1,9 @@
 package shahbaz4311.fun2learn;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,11 +23,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView inpName;
+    TextView inpName,errorMsg;
     Button startBtn;
     List<String> ques, ans;
     List<List<String>> opts;
     ImageView logo;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +48,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         inpName=findViewById(R.id.inpName);
+        errorMsg=findViewById(R.id.errorMsg);
         startBtn=findViewById(R.id.startBtn);
+
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String name= (String) inpName.getText();
+                if(name!=""){
+                    userName=name;
+                    Intent quizIntent= new Intent(getBaseContext(), quizActivity.class);
+                    startActivity(quizIntent);
+                }else{
+                    errorMsg.setText("Enter your name first to start quiz!!!");
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            errorMsg.setText("");
+                        }
+                    },3000);
+                }
             }
         });
 
