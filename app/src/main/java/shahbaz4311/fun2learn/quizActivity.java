@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +29,7 @@ public class quizActivity extends AppCompatActivity {
     TextView inpName,dateTime,marks,quesInp;
     RadioButton choice1,choice2,choice3,choice4;
     RadioGroup choices;
+    Button nextQuesBtn;
     List<String> ques, ans;
     List<List<String>> opts;
     LinearLayout main;
@@ -66,7 +70,33 @@ public class quizActivity extends AppCompatActivity {
         choice4=findViewById(R.id.choice4);
         choices=findViewById(R.id.choices);
 
-        //show first question
+        //set first question
+        quesInp.setText(formattedHTMLStr("01. "+ques.get(0)), TextView.BufferType.SPANNABLE);
+
+        //set first question options
+        List<String> firstChoice=opts.get(0);
+        choice1.setText(firstChoice.get(0));
+        choice2.setText(firstChoice.get(1));
+        choice3.setText(firstChoice.get(2));
+        choice4.setText(firstChoice.get(3));
+
+
+        //Next Question
+        nextQuesBtn=findViewById(R.id.nextQuesBtn);
+        nextQuesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int selected=choices.getCheckedRadioButtonId();
+                if(selected==-1){
+                    Toast.makeText(getApplicationContext(),"Please select an option",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast t;
+
+                    RadioButton selectedChoice=(RadioButton) findViewById(selected);
+                    Toast.makeText(getApplicationContext(),selectedChoice.getText().toString(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
 
@@ -76,7 +106,7 @@ public class quizActivity extends AppCompatActivity {
 
     private SpannableString formattedHTMLStr(String text){
         SpannableString spanText=new SpannableString(text);
-        spanText.setSpan(new ForegroundColorSpan(getColor(R.color.yellow)),0,2,0);
+        spanText.setSpan(new ForegroundColorSpan(getColor(R.color.yellow)),0,3,0);
         return spanText;
     }
     private List<String> getShuffledList(String fName) {
