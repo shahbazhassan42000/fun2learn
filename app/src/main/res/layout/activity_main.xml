@@ -26,25 +26,17 @@
 
             android:src="@drawable/logo_transparent" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:ellipsize="end"
-            android:fontFamily="@font/handlee"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:textAlignment="center"
-            android:textSize="28sp" />
+
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Design.TextInputLayout"
             android:layout_width="260sp"
             android:layout_height="70sp"
+            android:layout_marginTop="40sp"
             android:hint="Enter your Name">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inpName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -58,11 +50,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/startBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
             android:text="Start Quiz" />
+
 
 
     </LinearLayout>

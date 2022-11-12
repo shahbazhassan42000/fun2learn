@@ -2,11 +2,14 @@ package shahbaz4311.fun2learn;
 
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 
 import java.io.IOException;
@@ -18,7 +21,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView inpField;
+    TextView inpName;
+    Button startBtn;
     List<String> ques, ans;
     List<List<String>> opts;
     ImageView logo;
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
 
 
@@ -39,7 +44,19 @@ public class MainActivity extends AppCompatActivity {
             opts.add(list);
         }
 
-        logo=findViewById(R.id.logo);
+        inpName=findViewById(R.id.inpName);
+        startBtn=findViewById(R.id.startBtn);
+        startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+
+
+
 
 
 
