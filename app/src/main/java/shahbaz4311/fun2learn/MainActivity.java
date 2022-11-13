@@ -45,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
                     userName=name;
                     Intent quizIntent= new Intent(getBaseContext(), quizActivity.class);
                     quizIntent.putExtra("userName",userName);
+
                     startActivity(quizIntent);
+                    finish();
                 }else{
                     errorMsg.setText("Enter your name first to start quiz!!!");
                     new Handler().postDelayed(new Runnable() {

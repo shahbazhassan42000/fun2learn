@@ -33,14 +33,16 @@ public class quizActivity extends AppCompatActivity {
     Button nextQuesBtn;
     List<String> ques;
     HashMap<String, String> sols;
-    HashMap<String,List<String>> opts;
-    LinearLayout main;
-    int correctAns;
+    HashMap<String, List<String>> opts;
 
-    TextView t1,t2,t3,t4;
+    LinearLayout main;
+    int correctAns, count;
+
+    TextView t1, t2, t3, t4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        correctAns = 0;
+        correctAns = count = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         intent = getIntent();
@@ -49,11 +51,10 @@ public class quizActivity extends AppCompatActivity {
         main.setVerticalScrollBarEnabled(true);
 
 
-        t1=findViewById(R.id.t1);
-        t2=findViewById(R.id.t2);
-        t3=findViewById(R.id.t3);
-        t4=findViewById(R.id.t4);
-
+        t1 = findViewById(R.id.t1);
+        t2 = findViewById(R.id.t2);
+        t3 = findViewById(R.id.t3);
+        t4 = findViewById(R.id.t4);
 
 
         //Get questions,answers, and options list
@@ -75,16 +76,8 @@ public class quizActivity extends AppCompatActivity {
         choice4 = findViewById(R.id.choice4);
         choices = findViewById(R.id.choices);
 
-        //set first question
-        quesInp.setText(formattedHTMLStr("01. " + ques.get(0)), TextView.BufferType.SPANNABLE);
-
-        //set first question options
-        List<String> firstChoice = opts.get(quesInp.getText().toString().substring(4));
-        choice1.setText(firstChoice.get(0));
-        choice2.setText(firstChoice.get(1));
-        choice3.setText(firstChoice.get(2));
-        choice4.setText(firstChoice.get(3));
-
+        //load first Question
+        loadQuestion(count);
 
         //Next Question
         nextQuesBtn = findViewById(R.id.nextQuesBtn);
@@ -96,12 +89,17 @@ public class quizActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please select an option", Toast.LENGTH_SHORT).show();
                 } else {
                     RadioButton selectedChoice = (RadioButton) findViewById(selected);
-                    if(isCorrectAns(selectedChoice.getText().toString())){
+                    if (isCorrectAns(selectedChoice.getText().toString())) {
                         Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
                         correctAns++;
-                        marks.setText(Integer.toString(correctAns)+"/10");
-                    }else{
+                        marks.setText(Integer.toString(correctAns) + "/10");
+                    } else {
                         Toast.makeText(getApplicationContext(), "Wrong Answer", Toast.LENGTH_SHORT).show();
+                    }
+                    choices.clearCheck();
+                    if(count<10) loadQuestion(count);
+                    else{
+                        finish();
                     }
                 }
             }
@@ -110,7 +108,21 @@ public class quizActivity extends AppCompatActivity {
 
     }
 
-    private boolean isCorrectAns(String ans){
+    private void loadQuestion(int quesNo){
+        if(quesNo!=9){
+            quesInp.setText(formattedHTMLStr("0"+Integer.toString(quesNo+1)+". " + ques.get(quesNo)), TextView.BufferType.SPANNABLE);
+        }else{
+            quesInp.setText(formattedHTMLStr(Integer.toString(quesNo+1)+". " + ques.get(quesNo)), TextView.BufferType.SPANNABLE);
+        }
+        List<String> choices = opts.get(quesInp.getText().toString().substring(4));
+        choice1.setText(choices.get(0));
+        choice2.setText(choices.get(1));
+        choice3.setText(choices.get(2));
+        choice4.setText(choices.get(3));
+        count++;
+    }
+
+    private boolean isCorrectAns(String ans) {
 //        t1.setText(quesInp.getText().toString().substring(4));
 //        t2.setText(ans+String.valueOf(ans.length()));
 //        t3.setText(sols.get(quesInp.getText().toString().substring(4))+String.valueOf(sols.get(quesInp.getText().toString().substring(4)).length()));
@@ -138,9 +150,9 @@ public class quizActivity extends AppCompatActivity {
         try {
             List<String> ques = Arrays.asList(readFile(quesFName).split("\n"));
             List<String> ans = Arrays.asList(readFile(ansFName).split("\n"));
-            HashMap<String,String> sols=new HashMap<>();
+            HashMap<String, String> sols = new HashMap<>();
             for (int i = 0; i < ques.size(); i++) {
-                sols.put(ques.get(i),ans.get(i).trim());
+                sols.put(ques.get(i), ans.get(i).trim());
             }
             return sols;
         } catch (IOException e) {
@@ -148,24 +160,25 @@ public class quizActivity extends AppCompatActivity {
         }
     }
 
-    private HashMap<String,List<String>> getOptions(String quesFName, String optFName){
+    private HashMap<String, List<String>> getOptions(String quesFName, String optFName) {
         try {
             List<String> ques = Arrays.asList(readFile(quesFName).split("\n"));
-            List<List<String>> opts=new ArrayList<>();
-            HashMap<String,List<String>> options=new HashMap<>();
+            List<List<String>> opts = new ArrayList<>();
+            HashMap<String, List<String>> options = new HashMap<>();
             for (String opt : Arrays.asList(readFile(optFName).split("\n"))) {
                 List<String> list = Arrays.asList(opt.split(";"));
                 Collections.shuffle(list);
                 opts.add(list);
             }
             for (int i = 0; i < ques.size(); i++) {
-                options.put(ques.get(i),opts.get(i));
+                options.put(ques.get(i), opts.get(i));
             }
             return options;
         } catch (IOException e) {
             return null;
         }
     }
+
     private String readFile(String fName) throws IOException {
         InputStream ir = getAssets().open(fName);
         int size = ir.available();
