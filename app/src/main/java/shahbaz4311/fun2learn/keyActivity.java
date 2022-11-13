@@ -67,7 +67,7 @@ public class keyActivity extends AppCompatActivity {
         int index=0,checkedID=0;
         for(String option:options){
             RadioButton radioBtn=new RadioButton(this);
-            params.setMargins(0,5,0,0);
+            params.setMargins(0,10,0,0);
             radioBtn.setLayoutParams(params);
             radioBtn.setTextColor(getColor(R.color.white));
             radioBtn.setBackgroundColor(getColor(R.color.secondary));
@@ -97,7 +97,7 @@ public class keyActivity extends AppCompatActivity {
         ques.setBackgroundColor(getColor(R.color.primary));
         ques.setTextColor(getColor(R.color.white));
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 20, 0, 5);
+        params.setMargins(0, 60, 0, 10);
         TextView t=findViewById(R.id.t);
         ques.setPadding(t.getPaddingLeft(), t.getPaddingTop(), t.getPaddingRight(), t.getPaddingBottom());
         ques.setLayoutParams(params);

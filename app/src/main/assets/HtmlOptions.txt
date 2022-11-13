@@ -1,5 +1,5 @@
 HyperText Markup Language;HighText Markup Language;HyperText Markdown Language;None of the above
-5;1;3;6
+5;1;6;3
 h1;h2;h6;h4
 Ordered Unordered Lists;Bulleted Numbered Lists;Named Unnamed Lists;None of the above
 <ul>;<ol>;<href>;<b>

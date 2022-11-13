@@ -115,7 +115,7 @@
 
     <TextView
         android:id="@+id/quesInp"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="40sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
@@ -123,7 +123,7 @@
         android:background="@color/primary"
         android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_marginBottom="10sp"
+        android:layout_marginBottom="20sp"
         />
 
     <RadioGroup

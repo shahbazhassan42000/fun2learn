@@ -120,6 +120,8 @@
             android:textColor="@color/white"
             android:layout_gravity="center"
             android:layout_marginTop="20sp"
+            android:layout_marginBottom="-30sp"
+            android:padding="10sp"
             android:textAlignment="center"
             android:background="@color/secondary"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
