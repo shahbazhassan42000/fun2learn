@@ -128,6 +128,15 @@
             android:layout_width="match_parent"
             android:padding="10sp"
             android:layout_height="wrap_content"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/secondary"
+            android:textColor="@color/white"
+            android:buttonTint="@color/primary"
+            android:id="@+id/r"
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 
