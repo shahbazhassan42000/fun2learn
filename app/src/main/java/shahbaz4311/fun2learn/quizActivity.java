@@ -34,7 +34,7 @@ public class quizActivity extends AppCompatActivity {
     List<String> ques;
     HashMap<String, String> sols;
     HashMap<String, List<String>> opts;
-
+    List<Key> key;
     LinearLayout main;
     int correctAns, count;
 
@@ -49,6 +49,7 @@ public class quizActivity extends AppCompatActivity {
         userName = intent.getStringExtra("userName");
         main = findViewById(R.id.quizMainLayout);
         main.setVerticalScrollBarEnabled(true);
+        key=new ArrayList<>();
 
 
         t1 = findViewById(R.id.t1);
@@ -99,6 +100,7 @@ public class quizActivity extends AppCompatActivity {
                     choices.clearCheck();
                     if(count<10) loadQuestion(count);
                     else{
+
                         finish();
                     }
                 }
@@ -115,6 +117,7 @@ public class quizActivity extends AppCompatActivity {
             quesInp.setText(formattedHTMLStr(Integer.toString(quesNo+1)+". " + ques.get(quesNo)), TextView.BufferType.SPANNABLE);
         }
         List<String> choices = opts.get(quesInp.getText().toString().substring(4));
+        key.add(new Key(ques.get(quesNo),choices));
         choice1.setText(choices.get(0));
         choice2.setText(choices.get(1));
         choice3.setText(choices.get(2));
@@ -127,7 +130,10 @@ public class quizActivity extends AppCompatActivity {
 //        t2.setText(ans+String.valueOf(ans.length()));
 //        t3.setText(sols.get(quesInp.getText().toString().substring(4))+String.valueOf(sols.get(quesInp.getText().toString().substring(4)).length()));
 //        t4.setText(Boolean.toString(ans.equals(sols.get(quesInp.getText().toString().substring(4)))));
-        return ans.equals(sols.get(quesInp.getText().toString().substring(4)));
+        String correctAnswer=sols.get(quesInp.getText().toString().substring(4));
+        key.get(count-1).setUserAnswer(ans);
+        key.get(count-1).setCorrectAnswer(correctAnswer);
+        return ans.equals(correctAnswer);
     }
 
     private SpannableString formattedHTMLStr(String text) {
