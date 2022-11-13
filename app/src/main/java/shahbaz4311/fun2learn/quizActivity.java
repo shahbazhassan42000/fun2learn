@@ -20,61 +20,66 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class quizActivity extends AppCompatActivity {
 
     Intent intent;
     String userName;
-    TextView inpName,dateTime,marks,quesInp;
-    RadioButton choice1,choice2,choice3,choice4;
+    TextView inpName, dateTime, marks, quesInp;
+    RadioButton choice1, choice2, choice3, choice4;
     RadioGroup choices;
     Button nextQuesBtn;
-    List<String> ques, ans;
-    List<List<String>> opts;
+    List<String> ques;
+    HashMap<String, String> sols;
+    HashMap<String,List<String>> opts;
     LinearLayout main;
     int correctAns;
 
+    TextView t1,t2,t3,t4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        correctAns=0;
+        correctAns = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         intent = getIntent();
         userName = intent.getStringExtra("userName");
-        main=findViewById(R.id.quizMainLayout);
+        main = findViewById(R.id.quizMainLayout);
         main.setVerticalScrollBarEnabled(true);
+
+
+        t1=findViewById(R.id.t1);
+        t2=findViewById(R.id.t2);
+        t3=findViewById(R.id.t3);
+        t4=findViewById(R.id.t4);
+
 
 
         //Get questions,answers, and options list
         ques = getShuffledList("HtmlQuestions.txt");
-        ans = getShuffledList("HtmlAnswers.txt");
-        opts = new ArrayList<>();
-        for (String opt : getShuffledList("HtmlOptions.txt")) {
-            List<String> list = Arrays.asList(opt.split(";"));
-            Collections.shuffle(list);
-            opts.add(list);
-        }
+        sols = getSolutions("HtmlQuestions.txt", "HtmlAnswers.txt");
+        opts = getOptions("HtmlQuestions.txt", "HtmlOptions.txt");
 
 
-        marks=findViewById(R.id.marks);
-        inpName=findViewById(R.id.userName);
-        dateTime=findViewById(R.id.dateTime);
+        marks = findViewById(R.id.marks);
+        inpName = findViewById(R.id.userName);
+        dateTime = findViewById(R.id.dateTime);
         inpName.setText(userName);
         dateTime.setText(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
 
-        quesInp=findViewById(R.id.quesInp);
-        choice1=findViewById(R.id.choice1);
-        choice2=findViewById(R.id.choice2);
-        choice3=findViewById(R.id.choice3);
-        choice4=findViewById(R.id.choice4);
-        choices=findViewById(R.id.choices);
+        quesInp = findViewById(R.id.quesInp);
+        choice1 = findViewById(R.id.choice1);
+        choice2 = findViewById(R.id.choice2);
+        choice3 = findViewById(R.id.choice3);
+        choice4 = findViewById(R.id.choice4);
+        choices = findViewById(R.id.choices);
 
         //set first question
-        quesInp.setText(formattedHTMLStr("01. "+ques.get(0)), TextView.BufferType.SPANNABLE);
+        quesInp.setText(formattedHTMLStr("01. " + ques.get(0)), TextView.BufferType.SPANNABLE);
 
         //set first question options
-        List<String> firstChoice=opts.get(0);
+        List<String> firstChoice = opts.get(quesInp.getText().toString().substring(4));
         choice1.setText(firstChoice.get(0));
         choice2.setText(firstChoice.get(1));
         choice3.setText(firstChoice.get(2));
@@ -82,34 +87,43 @@ public class quizActivity extends AppCompatActivity {
 
 
         //Next Question
-        nextQuesBtn=findViewById(R.id.nextQuesBtn);
+        nextQuesBtn = findViewById(R.id.nextQuesBtn);
         nextQuesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int selected=choices.getCheckedRadioButtonId();
-                if(selected==-1){
-
-
-
-                    Toast.makeText(getApplicationContext(),"Please select an option",Toast.LENGTH_SHORT).show();
-                }else{
-                    RadioButton selectedChoice=(RadioButton) findViewById(selected);
-                    Toast.makeText(getApplicationContext(),selectedChoice.getText().toString(),Toast.LENGTH_SHORT).show();
+                int selected = choices.getCheckedRadioButtonId();
+                if (selected == -1) {
+                    Toast.makeText(getApplicationContext(), "Please select an option", Toast.LENGTH_SHORT).show();
+                } else {
+                    RadioButton selectedChoice = (RadioButton) findViewById(selected);
+                    if(isCorrectAns(selectedChoice.getText().toString())){
+                        Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
+                        correctAns++;
+                        marks.setText(Integer.toString(correctAns)+"/10");
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Wrong Answer", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
 
-
-
     }
 
+    private boolean isCorrectAns(String ans){
+//        t1.setText(quesInp.getText().toString().substring(4));
+//        t2.setText(ans+String.valueOf(ans.length()));
+//        t3.setText(sols.get(quesInp.getText().toString().substring(4))+String.valueOf(sols.get(quesInp.getText().toString().substring(4)).length()));
+//        t4.setText(Boolean.toString(ans.equals(sols.get(quesInp.getText().toString().substring(4)))));
+        return ans.equals(sols.get(quesInp.getText().toString().substring(4)));
+    }
 
-    private SpannableString formattedHTMLStr(String text){
-        SpannableString spanText=new SpannableString(text);
-        spanText.setSpan(new ForegroundColorSpan(getColor(R.color.yellow)),0,3,0);
+    private SpannableString formattedHTMLStr(String text) {
+        SpannableString spanText = new SpannableString(text);
+        spanText.setSpan(new ForegroundColorSpan(getColor(R.color.yellow)), 0, 3, 0);
         return spanText;
     }
+
     private List<String> getShuffledList(String fName) {
         try {
             List<String> ques = Arrays.asList(readFile(fName).split("\n"));
@@ -120,6 +134,38 @@ public class quizActivity extends AppCompatActivity {
         }
     }
 
+    private HashMap<String, String> getSolutions(String quesFName, String ansFName) {
+        try {
+            List<String> ques = Arrays.asList(readFile(quesFName).split("\n"));
+            List<String> ans = Arrays.asList(readFile(ansFName).split("\n"));
+            HashMap<String,String> sols=new HashMap<>();
+            for (int i = 0; i < ques.size(); i++) {
+                sols.put(ques.get(i),ans.get(i).trim());
+            }
+            return sols;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private HashMap<String,List<String>> getOptions(String quesFName, String optFName){
+        try {
+            List<String> ques = Arrays.asList(readFile(quesFName).split("\n"));
+            List<List<String>> opts=new ArrayList<>();
+            HashMap<String,List<String>> options=new HashMap<>();
+            for (String opt : Arrays.asList(readFile(optFName).split("\n"))) {
+                List<String> list = Arrays.asList(opt.split(";"));
+                Collections.shuffle(list);
+                opts.add(list);
+            }
+            for (int i = 0; i < ques.size(); i++) {
+                options.put(ques.get(i),opts.get(i));
+            }
+            return options;
+        } catch (IOException e) {
+            return null;
+        }
+    }
     private String readFile(String fName) throws IOException {
         InputStream ir = getAssets().open(fName);
         int size = ir.available();
