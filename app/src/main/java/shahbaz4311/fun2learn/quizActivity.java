@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -38,8 +39,6 @@ public class quizActivity extends AppCompatActivity {
     LinearLayout main;
     int correctAns, count;
 
-    TextView t1, t2, t3, t4;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         correctAns = count = 0;
@@ -47,16 +46,12 @@ public class quizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         intent = getIntent();
         userName = intent.getStringExtra("userName");
+
+        //enable vertical scroll bar
         main = findViewById(R.id.quizMainLayout);
         main.setVerticalScrollBarEnabled(true);
+
         key=new ArrayList<>();
-
-
-        t1 = findViewById(R.id.t1);
-        t2 = findViewById(R.id.t2);
-        t3 = findViewById(R.id.t3);
-        t4 = findViewById(R.id.t4);
-
 
         //Get questions,answers, and options list
         ques = getShuffledList("HtmlQuestions.txt");
@@ -100,14 +95,16 @@ public class quizActivity extends AppCompatActivity {
                     choices.clearCheck();
                     if(count<10) loadQuestion(count);
                     else{
-
+                            Intent keyIntent=new Intent(getBaseContext(),keyActivity.class);
+                            keyIntent.putExtra("key",(Serializable) key);
+                            keyIntent.putExtra("marks",Integer.toString(correctAns));
+                            keyIntent.putExtra("name",userName);
+                            startActivity(keyIntent);
                         finish();
                     }
                 }
             }
         });
-
-
     }
 
     private void loadQuestion(int quesNo){
@@ -126,10 +123,6 @@ public class quizActivity extends AppCompatActivity {
     }
 
     private boolean isCorrectAns(String ans) {
-//        t1.setText(quesInp.getText().toString().substring(4));
-//        t2.setText(ans+String.valueOf(ans.length()));
-//        t3.setText(sols.get(quesInp.getText().toString().substring(4))+String.valueOf(sols.get(quesInp.getText().toString().substring(4)).length()));
-//        t4.setText(Boolean.toString(ans.equals(sols.get(quesInp.getText().toString().substring(4)))));
         String correctAnswer=sols.get(quesInp.getText().toString().substring(4));
         key.get(count-1).setUserAnswer(ans);
         key.get(count-1).setCorrectAnswer(correctAnswer);
@@ -142,7 +135,7 @@ public class quizActivity extends AppCompatActivity {
         return spanText;
     }
 
-    private List<String> getShuffledList(String fName) {
+     private List<String> getShuffledList(String fName) {
         try {
             List<String> ques = Arrays.asList(readFile(fName).split("\n"));
             Collections.shuffle(ques);
@@ -185,7 +178,7 @@ public class quizActivity extends AppCompatActivity {
         }
     }
 
-    private String readFile(String fName) throws IOException {
+     private String readFile(String fName) throws IOException {
         InputStream ir = getAssets().open(fName);
         int size = ir.available();
         byte[] buffer = new byte[size];

@@ -1,9 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/keyMainLayout"
+    android:background="@color/bg_gray"
+    android:padding="10sp"
+    android:scrollbars="vertical"
+    android:orientation="vertical"
     tools:context=".keyActivity">
+    <TableLayout
+        android:layout_marginTop="10sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--        row-1-->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="@color/white"
+                android:padding="10sp"
+                android:background="@color/primary"
+                android:layout_column="1"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:background="@color/secondary"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="10sp"
+                android:scrollHorizontally="true"
+                android:textColor="@color/white" />
+
+        </TableRow>
+
+        <!--        row-2-->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_marginTop="1sp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Date &amp; Time"
+                android:textColor="@color/white"
+                android:padding="10sp"
+                android:background="@color/primary"
+                android:layout_column="1"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/dateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:background="@color/secondary"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="10sp"
+                android:scrollHorizontally="true"
+                android:textColor="@color/white" />
+
+        </TableRow>
+        <!--        row-3-->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_marginTop="1sp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Marks"
+                android:textColor="@color/white"
+                android:padding="10sp"
+                android:background="@color/primary"
+                android:layout_column="1"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/marks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:background="@color/secondary"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="10sp"
+                android:text="0/10"
+                android:scrollHorizontally="true"
+                android:textColor="@color/white" />
+
+        </TableRow>
+    </TableLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Result"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginTop="20sp"
+        android:textAlignment="center"
+        android:background="@color/secondary"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+</LinearLayout>
