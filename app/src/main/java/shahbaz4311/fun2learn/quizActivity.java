@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -104,7 +103,6 @@ public class quizActivity extends AppCompatActivity {
                 intent = new Intent(this, resultActivity.class);
                 intent.putExtra("userName", userName);
                 intent.putExtra("questions", (Serializable) questions);
-                Log.d("TESTING", "STARTING RESULT ACTIVITY");
                 startActivity(intent);
                 finish();
             }
