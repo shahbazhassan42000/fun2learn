@@ -4,6 +4,7 @@ package shahbaz4311.fun2learn;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,26 +38,21 @@ public class MainActivity extends AppCompatActivity {
         errorMsg=findViewById(R.id.errorMsg);
         startBtn=findViewById(R.id.startBtn);
 
-        startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name= String.valueOf(inpName.getText());
-                if(!name.equals("")){
-                    userName=name;
-                    Intent quizIntent= new Intent(getBaseContext(), quizActivity.class);
-                    quizIntent.putExtra("userName",userName);
-
-                    startActivity(quizIntent);
-                    finish();
-                }else{
-                    errorMsg.setText("Enter your name first to start quiz!!!");
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            errorMsg.setText("");
-                        }
-                    },3000);
-                }
+        startBtn.setOnClickListener(view -> {
+            String name= String.valueOf(inpName.getText());
+            if(!name.equals("")){
+                userName=name;
+                Intent quizIntent= new Intent(getBaseContext(), quizActivity.class);
+                quizIntent.putExtra("userName",userName);
+                startActivity(quizIntent);
+            }else{
+                errorMsg.setText("Enter your name first to start quiz!!!");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMsg.setText("");
+                    }
+                },3000);
             }
         });
     }

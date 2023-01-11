@@ -1,8 +1,6 @@
 package shahbaz4311.fun2learn;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.CompoundButtonCompat;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -14,19 +12,23 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.CompoundButtonCompat;
+
 import java.util.Calendar;
 import java.util.List;
 
-public class keyActivity extends AppCompatActivity {
-    List<Question> key;
+public class resultActivity extends AppCompatActivity {
+
     int correctAns, count;
+    List<Question> questions;
     String userName;
-    TextView inpName, dateTime, marks;
     LinearLayout main;
+    TextView inpName, dateTime, marks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        count = 0;
+        correctAns=count = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
@@ -34,27 +36,23 @@ public class keyActivity extends AppCompatActivity {
         main = findViewById(R.id.keyMainLayout);
 
         Intent intent = getIntent();
-        key = (List<Question>) intent.getSerializableExtra("key");
-        correctAns = Integer.parseInt(intent.getStringExtra("marks"));
-        userName = intent.getStringExtra("name");
+        userName = intent.getStringExtra("userName");
+        questions = (List<Question>) intent.getSerializableExtra("questions");
         marks = findViewById(R.id.marks);
         inpName = findViewById(R.id.userName);
         dateTime = findViewById(R.id.dateTime);
         inpName.setText(userName);
         dateTime.setText(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
-        marks.setText(Integer.toString(correctAns) + "/10");
 
-
-        for (Question key : key) {
-            createKey(key);
+        for (Question question : questions) {
+            createResult(question);
         }
-
-
     }
-
-    private void createKey(Question key) {
-        createQuestion(key.getQuestion());
-        createOptions(key.getOptions(),key.getUserAnswer(),key.getCorrectAnswer());
+    @SuppressLint("SetTextI18n")
+    private void createResult(Question question) {
+        createQuestion(question.getQuestion());
+        createOptions(question.getOptions(),question.getUserAnswer(),question.getCorrectAnswer());
+        if(count==questions.size()-1) marks.setText(Integer.toString(correctAns) + "/10");
         count++;
     }
 
@@ -73,6 +71,7 @@ public class keyActivity extends AppCompatActivity {
             if(option.equals(userAnswer)){
                 checkedID=index;
                 radioBtn.setSelected(true);
+                correctAns++;
                 if(!userAnswer.equals(correctAnswer)) radioBtn.setBackgroundColor(getColor(R.color.red));
             }
             if(option.equals(correctAnswer)) radioBtn.setBackgroundColor(getColor(R.color.green));

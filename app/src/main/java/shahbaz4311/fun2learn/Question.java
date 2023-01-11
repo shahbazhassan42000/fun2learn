@@ -1,20 +1,30 @@
 package shahbaz4311.fun2learn;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
-public class Key implements Serializable {
+public class Question implements Serializable {
     private final String question;
     private final List<String> options;
-    private String userAnswer;
     private String correctAnswer;
+    private String userAnswer;
 
-    public Key(String question, List<String> options) {
+    public Question(String question, List<String> options, String correctAnswer) {
         this.question = question;
         this.options = options;
+        this.correctAnswer = correctAnswer;
     }
 
-    public void setUserAnswer(String userAnswer){
+    //constructor with all parameters
+    public Question(String question, List<String> options, String correctAnswer, String userAnswer) {
+        this.question = question;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
+        this.userAnswer = userAnswer;
+    }
+
+    public void setUserAnswer(String userAnswer) {
         this.userAnswer = userAnswer;
     }
 
@@ -37,5 +47,4 @@ public class Key implements Serializable {
     public String getCorrectAnswer() {
         return correctAnswer;
     }
-
 }
