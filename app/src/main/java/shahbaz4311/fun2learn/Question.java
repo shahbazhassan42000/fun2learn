@@ -1,5 +1,7 @@
 package shahbaz4311.fun2learn;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +10,7 @@ public class Question implements Serializable {
     private final String question;
     private final List<String> options;
     private String correctAnswer;
-    private String userAnswer;
+    private String userAnswer="";
 
     public Question(String question, List<String> options, String correctAnswer) {
         this.question = question;
@@ -47,4 +49,12 @@ public class Question implements Serializable {
     public String getCorrectAnswer() {
         return correctAnswer;
     }
+
+    //to string
+    @NonNull
+    @Override
+    public String toString() {
+        return question + "\t" +correctAnswer + "\t" + userAnswer;
+    }
+
 }

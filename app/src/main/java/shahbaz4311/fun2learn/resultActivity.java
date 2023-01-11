@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -33,11 +34,15 @@ public class resultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         //enable vertical scroll bar
-        main = findViewById(R.id.keyMainLayout);
+        main = findViewById(R.id.resultMainLayout);
 
+        Log.d("TESTING", "STARTED");
         Intent intent = getIntent();
         userName = intent.getStringExtra("userName");
+        Log.d("TESTING", userName);
+        Log.d("TESTING", "BEFORE");
         questions = (List<Question>) intent.getSerializableExtra("questions");
+        Log.d("TESTING", "AFTER");
         marks = findViewById(R.id.marks);
         inpName = findViewById(R.id.userName);
         dateTime = findViewById(R.id.dateTime);
@@ -68,10 +73,11 @@ public class resultActivity extends AppCompatActivity {
             radioBtn.setTextColor(getColor(R.color.white));
             radioBtn.setBackgroundColor(getColor(R.color.secondary));
             radioBtn.setText(option);
+            radioBtn.setClickable(false);
+            radioBtn.setEnabled(false);
             if(option.equals(userAnswer)){
                 checkedID=index;
                 radioBtn.setSelected(true);
-                correctAns++;
                 if(!userAnswer.equals(correctAnswer)) radioBtn.setBackgroundColor(getColor(R.color.red));
             }
             if(option.equals(correctAnswer)) radioBtn.setBackgroundColor(getColor(R.color.green));
@@ -80,8 +86,12 @@ public class resultActivity extends AppCompatActivity {
             index++;
         }
         radioGroup.check(radioGroup.getChildAt(checkedID).getId());
-
+        radioGroup.setEnabled(false);
         main.addView(radioGroup);
+
+        //check if answer is correct
+        if(userAnswer.equals(correctAnswer)) correctAns++;
+        Log.d("TESTING",userAnswer+" "+userAnswer.length()+"\t"+correctAnswer+" "+correctAnswer.length());
     }
 
     private void createQuestion(String question) {

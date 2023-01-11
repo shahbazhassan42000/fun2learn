@@ -1,9 +1,8 @@
 package shahbaz4311.fun2learn;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -37,6 +36,7 @@ public class quizActivity extends AppCompatActivity {
     LinearLayout main;
     int quesNo;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         quesNo = 0;
@@ -72,33 +72,31 @@ public class quizActivity extends AppCompatActivity {
         options[3] = findViewById(R.id.option4);
 
         //set question
-        loadQuestion(quesNo);
+        creationQuestion();
         prevQuesBtn.setEnabled(false);
 
         nextQuesBtn.setOnClickListener(v -> {
+            checkOptions();
             quesNo++;
-            loadQuestion(quesNo);
+            creationQuestion();
             if (quesNo == 9) nextQuesBtn.setEnabled(false);
             if (quesNo == 1) prevQuesBtn.setEnabled(true);
         });
 
         prevQuesBtn.setOnClickListener(v -> {
+            checkOptions();
             quesNo--;
-            loadQuestion(quesNo);
+            creationQuestion();
             if (quesNo == 0) prevQuesBtn.setEnabled(false);
             if (quesNo == 8) nextQuesBtn.setEnabled(true);
         });
 
-        //on radio button change
-        optionsGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            questions.get(quesNo).setUserAnswer(options[checkedId - 1].getText().toString());
-            Log.d(TAG, checkedId + "\t" + options[checkedId - 1].getText().toString());
-        });
 
         submitBtn.setOnClickListener(v -> {
+            checkOptions();
             int marked = 0;
             for (Question q : questions) {
-                if (q.getUserAnswer() != null && !q.getUserAnswer().equals("")) marked++;
+                if (!q.getUserAnswer().equals("")) marked++;
             }
             if (marked != 10) {
                 Toast.makeText(this, "Please answer all questions", Toast.LENGTH_SHORT).show();
@@ -106,63 +104,35 @@ public class quizActivity extends AppCompatActivity {
                 intent = new Intent(this, resultActivity.class);
                 intent.putExtra("userName", userName);
                 intent.putExtra("questions", (Serializable) questions);
+                Log.d("TESTING", "STARTING RESULT ACTIVITY");
                 startActivity(intent);
+                finish();
             }
             });
-
-
-            //Next Question
-//        nextQuesBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                int selected = choices.getCheckedRadioButtonId();
-//                if (selected == -1) {
-//                    Toast.makeText(getApplicationContext(), "Please select an option", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    RadioButton selectedChoice = (RadioButton) findViewById(selected);
-//                    if (isCorrectAns(selectedChoice.getText().toString())) {
-//                        Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
-//                        correctAns++;
-//                        marks.setText(Integer.toString(correctAns) + "/10");
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), "Wrong Answer", Toast.LENGTH_SHORT).show();
-//                    }
-//                    choices.clearCheck();
-//                    if(count<10) loadQuestion(count);
-//                    else{
-//                            Intent keyIntent=new Intent(getBaseContext(),keyActivity.class);
-//                            keyIntent.putExtra("key",(Serializable) key);
-//                            keyIntent.putExtra("marks",Integer.toString(correctAns));
-//                            keyIntent.putExtra("name",userName);
-//                            startActivity(keyIntent);
-//                        finish();
-//                    }
-//                }
-//            }
-//        });
         }
 
-        private void loadQuestion ( int quesNo){
+        private void checkOptions() {
+            int selected = optionsGroup.getCheckedRadioButtonId();
+            if (selected != -1 ){
+                RadioButton selectedChoice = (RadioButton) findViewById(selected);
+                questions.get(quesNo).setUserAnswer(selectedChoice.getText().toString());
+            }
+        }
+
+        private void creationQuestion(){
             if (quesNo != 9) {
-                quesInp.setText(formattedHTMLStr("0" + Integer.toString(quesNo + 1) + ". " + questions.get(quesNo)).toString(), TextView.BufferType.SPANNABLE);
+                quesInp.setText(formattedHTMLStr("0" + Integer.toString(quesNo + 1) + ". " + questions.get(quesNo).getQuestion()), TextView.BufferType.SPANNABLE);
             } else {
-                quesInp.setText(formattedHTMLStr(Integer.toString(quesNo + 1) + ". " + questions.get(quesNo)).toString(), TextView.BufferType.SPANNABLE);
+                quesInp.setText(formattedHTMLStr(Integer.toString(quesNo + 1) + ". " + questions.get(quesNo).getQuestion()), TextView.BufferType.SPANNABLE);
             }
             List<String> choices = questions.get(quesNo).getOptions();
+            optionsGroup.clearCheck();
             for (int i = 0; i < choices.size(); i++) {
                 options[i].setText(choices.get(i));
-                if (questions.get(quesNo).getUserAnswer() != null && questions.get(quesNo).getUserAnswer().equals(choices.get(i))) {
-                    options[i].setChecked(true);
-                }
+                if(questions.get(quesNo).getUserAnswer().equals(choices.get(i))) optionsGroup.check(options[i].getId());
             }
         }
 
-//    private boolean isCorrectAns(String ans) {
-//        String correctAnswer=sols.get(quesInp.getText().toString().substring(4));
-//        key.get(count-1).setUserAnswer(ans);
-//        key.get(count-1).setCorrectAnswer(correctAnswer);
-//        return ans.equals(correctAnswer);
-//    }
 
         private SpannableString formattedHTMLStr (String text){
             SpannableString spanText = new SpannableString(text);
@@ -172,13 +142,12 @@ public class quizActivity extends AppCompatActivity {
 
         private List<Question> loadQuestions (String fName){
             try {
-                String[] lines = readFile(fName).split("\n");
+                String[] lines = readFile(fName).split("\r\n");
                 for (String line : lines) {
                     String[] parts = line.split("<==>");
-                    Log.d("TESTING", parts[0]);
                     ArrayList<String> options = new ArrayList<>(Arrays.asList(parts[1].split(";")));
                     Collections.shuffle(options);
-                    questions.add(new Question(parts[0], options, parts[2]));
+                    questions.add(new Question(parts[0].trim(), options, parts[2].trim()));
                 }
                 Collections.shuffle(questions);
                 return questions;
