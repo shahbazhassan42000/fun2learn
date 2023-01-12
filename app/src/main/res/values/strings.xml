@@ -8,5 +8,13 @@
     <string name="_0_10">0/10</string>
     <string name="submit">Submit Quiz</string>
     <string name="result">Result</string>
+    <string name="start_quiz">Start Quiz</string>
+    <string name="logo">Logo</string>
+    <string name="username">Username</string>
+    <string name="user_icon">user icon</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="signup">Signup</string>
+    <string name="invalid_credentials">Invalid credentials</string>
 
 </resources>
