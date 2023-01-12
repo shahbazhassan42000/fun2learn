@@ -16,5 +16,7 @@
     <string name="login">Login</string>
     <string name="signup">Signup</string>
     <string name="invalid_credentials">Invalid credentials</string>
+    <string name="show_password">show_password</string>
+    <string name="hide_password">hide_password</string>
 
 </resources>

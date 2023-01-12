@@ -1,35 +1,25 @@
 package shahbaz4311.fun2learn;
 
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     TextView username_input, password_input, msg_label;
     Button login_btn, signup_btn;
+    ImageView show_password_btn;
     User user;
 
     @Override
@@ -43,6 +33,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         msg_label = findViewById(R.id.msg_label);
         login_btn = findViewById(R.id.login_btn);
         signup_btn = findViewById(R.id.signup_btn);
+        show_password_btn = findViewById(R.id.show_hide_password_btn);
+
+        //adding listeners
+        login_btn.setOnClickListener(this);
+        signup_btn.setOnClickListener(this);
+        show_password_btn.setOnClickListener(this);
+        username_input.addTextChangedListener(this);
+        password_input.addTextChangedListener(this);
 
 
 //        inpName=findViewById(R.id.inpName);
@@ -71,54 +69,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-//        switch (view.getId()){
-//            case R.id.login_btn:
-//                String username = username_input.getText().toString();
-//                String password = password_input.getText().toString();
-//                if(username.equals("") || password.equals("")){
-//                    msg_label.setText("Please fill all the fields");
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            msg_label.setText("");
-//                        }
-//                    },3000);
-//                }else{
-//                    user = new User(username,password);
-//                    if(user.login()){
-//                        Intent intent = new Intent(getBaseContext(), quizActivity.class);
-//                        intent.putExtra("user",user);
-//                        startActivity(intent);
-//                        finish();
-//                    }else{
-//                        msg_label.setText("Invalid username or password");
-//                        new Handler().postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                msg_label.setText("");
-//                            }
-//                        },3000);
-//                    }
-//                }
-//                break;
-//            case R.id.signup_btn:
-//                Intent intent = new Intent(getBaseContext(), signupActivity.class);
-//                startActivity(intent);
-//                finish();
-//                break;
-//        }
+        switch (view.getId()) {
+            case R.id.show_hide_password_btn:
+                //check if description is show_password then show password
+                if (show_password_btn.getContentDescription().equals(getString(R.string.show_password))) {
+                    show_password_btn.setImageResource(R.drawable.password_hide_icon);
+                    show_password_btn.setContentDescription(getString(R.string.hide_password));
+                    password_input.setTransformationMethod(null);
+                } else {
+                    show_password_btn.setImageResource(R.drawable.password_show_icon);
+                    show_password_btn.setContentDescription(getString(R.string.show_password));
+                    password_input.setTransformationMethod(new PasswordTransformationMethod());
+                }
+                break;
+            case R.id.signup_btn:
+
+                break;
+            default:
+
+                break;
+        }
     }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
     }
 
     @Override
     public void onTextChanged(CharSequence charSequence, int start, int count, int after) {
 
         //disable login and signup button if any field is empty
-        if (!username_input.getText().toString().trim().equals("") && !password_input.getText().toString().trim().equals("")) {
+        if (!username_input.getText().toString().trim().equals("") && password_input.getText().toString().trim().length() >= 8) {
             login_btn.setEnabled(true);
             signup_btn.setEnabled(true);
         } else {
@@ -127,8 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         //change border color to red if password is less than 8 characters
-        password_input.setBackgroundTintList(password_input.getText().toString().trim().length() < 8?ColorStateList.valueOf(getColor(R.color.red)):ColorStateList.valueOf(getColor(R.color.secondary)));
-
+        password_input.setBackgroundTintList(password_input.getText().toString().trim().length() < 8 ? ColorStateList.valueOf(getColor(R.color.red)) : ColorStateList.valueOf(getColor(R.color.secondary)));
+        username_input.setBackgroundTintList(username_input.getText().toString().trim().equals("") ? ColorStateList.valueOf(getColor(R.color.red)) : ColorStateList.valueOf(getColor(R.color.secondary)));
     }
 
     @Override
