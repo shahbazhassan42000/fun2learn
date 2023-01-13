@@ -94,14 +94,17 @@ public class DBMS extends SQLiteOpenHelper {
     }
 
     //login user
-    public boolean login(String username, String password) {
+    public boolean login(User user) {
         try (SQLiteDatabase db = getReadableDatabase()) {
-            String query = "SELECT * FROM " + USER_TABLE + " WHERE " + USERNAME + " = '" + username + "';";
+            String query = "SELECT * FROM " + USER_TABLE + " WHERE " + USERNAME + " = '" + user.getUsername() + "';";
             Cursor cursor=db.rawQuery(query, null);
             if(cursor.moveToFirst()){
                 @SuppressLint("Range") String pass=cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
-                return PASSWORD.match(password,pass);
+                boolean res=pass.equals(PASSWORD.encrypt(user.getPassword()));
+                cursor.close();
+                return res;
             }
+            cursor.close();
             return false;
         } catch (Exception e) {
             return false;

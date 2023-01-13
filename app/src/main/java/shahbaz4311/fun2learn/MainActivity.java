@@ -1,12 +1,13 @@
 package shahbaz4311.fun2learn;
 
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
+import java.io.Serializable;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
@@ -86,38 +89,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             //username not exist
             //add user to database
-            display_message(getString(R.string.account_created_successfully), getColor(R.color.green), 5000);
             if (dbms.signup(user)) {
-
+                display_message(getString(R.string.account_created_successfully), getColor(R.color.green), 5000);
+                clear_fields();
+                load_new_activity();
             } else {
                 display_message(getString(R.string.account_created_failed), getColor(R.color.red), 5000);
             }
         }
     }
 
+    private void load_new_activity(){
+        //load new activity
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("user", (Serializable) user);
+        startActivity(intent);
+        finish();
+    }
 
+
+    private void login(){
+        user = new User(username_input.getText().toString(), password_input.getText().toString());
+        //check if login credentials are correct or not
+        if (dbms.login(user)) {
+            //login credentials are correct
+            display_message(getString(R.string.login_success), getColor(R.color.green), 5000);
+            clear_fields();
+            load_new_activity();
+        } else {
+            //login credentials are incorrect
+            display_message(getString(R.string.login_failed), getColor(R.color.red), 5000);
+        }
+    }
+
+    private void clear_fields() {
+        username_input.setText("");
+        password_input.setText("");
+    }
+
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.show_hide_password_btn:
                 //check if description is show_password then show password
-                if (show_password_btn.getContentDescription().equals(getString(R.string.show_password))) {
-                    show_password_btn.setImageResource(R.drawable.password_hide_icon);
-                    show_password_btn.setContentDescription(getString(R.string.hide_password));
-                    password_input.setTransformationMethod(null);
-                } else {
-                    show_password_btn.setImageResource(R.drawable.password_show_icon);
-                    show_password_btn.setContentDescription(getString(R.string.show_password));
-                    password_input.setTransformationMethod(new PasswordTransformationMethod());
-                }
+                show_hide_password_btn_toggle();
                 break;
             case R.id.signup_btn:
                 //signup user
                 signup();
                 break;
-            default:
-
+            case R.id.login_btn:
+                //login user
+                login();
                 break;
+            default:
+                break;
+        }
+    }
+
+    private void show_hide_password_btn_toggle() {
+        if (show_password_btn.getContentDescription().equals(getString(R.string.show_password))) {
+            show_password_btn.setImageResource(R.drawable.password_hide_icon);
+            show_password_btn.setContentDescription(getString(R.string.hide_password));
+            password_input.setTransformationMethod(null);
+        } else {
+            show_password_btn.setImageResource(R.drawable.password_show_icon);
+            show_password_btn.setContentDescription(getString(R.string.show_password));
+            password_input.setTransformationMethod(new PasswordTransformationMethod());
         }
     }
 

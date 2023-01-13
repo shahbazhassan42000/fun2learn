@@ -15,11 +15,13 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="signup">Signup</string>
-    <string name="invalid_credentials">Invalid credentials</string>
     <string name="show_password">show_password</string>
     <string name="hide_password">hide_password</string>
     <string name="account_created_successfully">Account created successfully</string>
     <string name="username_exist">Username already exist</string>
     <string name="account_created_failed">ERROR!!! While signup, Please try again</string>
+    <string name="login_success">Login successfully</string>
+    <string name="login_failed" >Invalid credentials</string>
+    <string name="welcome_text">Welcome to Fun2Learn</string>
 
 </resources>

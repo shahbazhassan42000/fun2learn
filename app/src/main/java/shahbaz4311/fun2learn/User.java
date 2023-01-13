@@ -2,7 +2,9 @@ package shahbaz4311.fun2learn;
 
 import androidx.annotation.NonNull;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String username;
     private String password;
 
