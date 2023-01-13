@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -21,12 +22,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button login_btn, signup_btn;
     ImageView show_password_btn;
     User user;
+    DBMS dbms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
+        dbms = new DBMS(this, null, 1);
 
         username_input = findViewById(R.id.username_input);
         password_input = findViewById(R.id.password_input);
@@ -67,6 +70,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        });
     }
 
+    //display error message for 5 seconds
+    private  void display_message(String msg, int color,int duration){
+        msg_label.setText(msg);
+        msg_label.setTextColor(color);
+        new android.os.Handler().postDelayed(() -> msg_label.setText(""), duration);
+    }
+
+    private void signup(){
+        user = new User(username_input.getText().toString(), password_input.getText().toString());
+        //check if username exist or not
+        if (dbms.userExists(user.getUsername())) {
+            //username exist
+            display_message(getString(R.string.username_exist), getColor(R.color.red), 5000);
+        } else {
+            //username not exist
+            //add user to database
+            display_message(getString(R.string.account_created_successfully), getColor(R.color.green), 5000);
+            if (dbms.signup(user)) {
+
+            } else {
+                display_message(getString(R.string.account_created_failed), getColor(R.color.red), 5000);
+            }
+        }
+    }
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -83,7 +112,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.signup_btn:
-
+                //signup user
+                signup();
                 break;
             default:
 
