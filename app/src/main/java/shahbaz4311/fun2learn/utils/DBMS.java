@@ -1,4 +1,4 @@
-package shahbaz4311.fun2learn;
+package shahbaz4311.fun2learn.utils;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import shahbaz4311.fun2learn.models.User;
 
 public class DBMS extends SQLiteOpenHelper {
     private final static String DB_NAME = "fun2learn.db";

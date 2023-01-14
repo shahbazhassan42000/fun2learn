@@ -1,4 +1,4 @@
-package shahbaz4311.fun2learn;
+package shahbaz4311.fun2learn.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

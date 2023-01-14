@@ -6,9 +6,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import shahbaz4311.fun2learn.models.User;
+
 public class HomeActivity extends AppCompatActivity {
 
     TextView username_label;
+
     User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //set username
         username_label.setText(user.getUsername());
+
 
     }
 }
