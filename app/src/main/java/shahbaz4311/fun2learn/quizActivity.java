@@ -114,7 +114,7 @@ public class quizActivity extends AppCompatActivity {
         private void checkOptions() {
             int selected = optionsGroup.getCheckedRadioButtonId();
             if (selected != -1 ){
-                RadioButton selectedChoice = (RadioButton) findViewById(selected);
+                RadioButton selectedChoice = findViewById(selected);
                 questions.get(quesNo).setUserAnswer(selectedChoice.getText().toString());
             }
         }
