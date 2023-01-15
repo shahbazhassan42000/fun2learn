@@ -2,7 +2,6 @@
     <string name="app_name">Fun 2 Learn</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
-    <string name="name">Name</string>
     <string name="date_amp_time"><![CDATA[Date & Time]]></string>
     <string name="marks">Marks</string>
     <string name="_0_10">0/10</string>
@@ -23,5 +22,7 @@
     <string name="login_success">Login successfully</string>
     <string name="login_failed" >Invalid credentials</string>
     <string name="welcome_text">Welcome to Fun2Learn</string>
+    <string name="take_quiz">Take Quiz</string>
+    <string name="logout">Logout</string>
 
 </resources>

@@ -20,14 +20,15 @@ import java.util.Calendar;
 import java.util.List;
 
 import shahbaz4311.fun2learn.models.Question;
+import shahbaz4311.fun2learn.models.User;
 
-public class resultActivity extends AppCompatActivity {
+public class ResultActivity extends AppCompatActivity {
 
     int correctAns, count;
     List<Question> questions;
-    String userName;
     LinearLayout main;
     TextView inpName, dateTime, marks;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +41,12 @@ public class resultActivity extends AppCompatActivity {
 
         Log.d("TESTING", "STARTED");
         Intent intent = getIntent();
-        userName = intent.getStringExtra("userName");
-        Log.d("TESTING", userName);
-        Log.d("TESTING", "BEFORE");
+        user=(User) getIntent().getSerializableExtra("user");
         questions = (List<Question>) intent.getSerializableExtra("questions");
-        Log.d("TESTING", "AFTER");
         marks = findViewById(R.id.marks);
         inpName = findViewById(R.id.userName);
         dateTime = findViewById(R.id.dateTime);
-        inpName.setText(userName);
+        inpName.setText(user.getUsername());
         dateTime.setText(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
 
         for (Question question : questions) {

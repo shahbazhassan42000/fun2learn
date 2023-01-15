@@ -16,8 +16,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import java.io.Serializable;
-
 import shahbaz4311.fun2learn.models.User;
 import shahbaz4311.fun2learn.utils.DBMS;
 
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //put user in intent
 //        user=new User("shahbaz","Hum-2977");
 //        Intent intent = new Intent(this, HomeActivity.class);
-//        intent.putExtra("user", (Serializable) user);
+//        intent.putExtra("user", user);
 //        startActivity(intent);
 //        finish();
 
@@ -65,30 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         show_password_btn.setOnClickListener(this);
         username_input.addTextChangedListener(this);
         password_input.addTextChangedListener(this);
-
-
-//        inpName=findViewById(R.id.inpName);
-//        errorMsg=findViewById(R.id.errorMsg);
-//        startBtn=findViewById(R.id.startBtn);
-//
-//        startBtn.setOnClickListener(view -> {
-//            String name= String.valueOf(inpName.getText());
-//            if(!name.equals("")){
-//                userName=name;
-//                Intent quizIntent= new Intent(getBaseContext(), quizActivity.class);
-//                quizIntent.putExtra("userName",userName);
-//                startActivity(quizIntent);
-//                finish();
-//            }else{
-//                errorMsg.setText("Enter your name first to start quiz!!!");
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        errorMsg.setText("");
-//                    }
-//                },3000);
-//            }
-//        });
     }
 
     //display error message for 5 seconds
@@ -110,17 +84,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (dbms.signup(user)) {
                 display_message(getString(R.string.account_created_successfully), getColor(R.color.green), 5000);
                 clear_fields();
-                load_new_activity();
+                load_home_activity();
             } else {
                 display_message(getString(R.string.account_created_failed), getColor(R.color.red), 5000);
             }
         }
     }
 
-    private void load_new_activity(){
-        //load new activity
+    private void load_home_activity(){
+        //load homepage activity
         Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("user", (Serializable) user);
+        intent.putExtra("user", user);
         startActivity(intent);
         finish();
     }
@@ -133,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //login credentials are correct
             display_message(getString(R.string.login_success), getColor(R.color.green), 5000);
             clear_fields();
-            load_new_activity();
+            load_home_activity();
         } else {
             //login credentials are incorrect
             display_message(getString(R.string.login_failed), getColor(R.color.red), 5000);

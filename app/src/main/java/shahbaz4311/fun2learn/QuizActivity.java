@@ -24,11 +24,11 @@ import java.util.Collections;
 import java.util.List;
 
 import shahbaz4311.fun2learn.models.Question;
+import shahbaz4311.fun2learn.models.User;
 
-public class quizActivity extends AppCompatActivity {
+public class QuizActivity extends AppCompatActivity {
 
     Intent intent;
-    String userName;
     TextView inpName, dateTime, marks, quesInp;
     RadioButton[] options;
     RadioGroup optionsGroup;
@@ -36,6 +36,7 @@ public class quizActivity extends AppCompatActivity {
     List<Question> questions;
     LinearLayout main;
     int quesNo;
+    User user;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -43,8 +44,7 @@ public class quizActivity extends AppCompatActivity {
         quesNo = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        intent = getIntent();
-        userName = intent.getStringExtra("userName");
+        user = (User) getIntent().getSerializableExtra("user");
         questions=new ArrayList<>();
 
         //enable vertical scroll bar
@@ -55,10 +55,12 @@ public class quizActivity extends AppCompatActivity {
         questions = loadQuestions("HTMLQuestions.txt");
 
 
+
+
         marks = findViewById(R.id.marks);
         inpName = findViewById(R.id.userName);
         dateTime = findViewById(R.id.dateTime);
-        inpName.setText(userName);
+        inpName.setText(user.getUsername());
         dateTime.setText(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
 
         quesInp = findViewById(R.id.quesInp);
@@ -102,11 +104,11 @@ public class quizActivity extends AppCompatActivity {
             if (marked != 10) {
                 Toast.makeText(this, "Please answer all questions", Toast.LENGTH_SHORT).show();
             } else {
-                intent = new Intent(this, resultActivity.class);
-                intent.putExtra("userName", userName);
+                finish();
+                intent = new Intent(this, ResultActivity.class);
+                intent.putExtra("user", user);
                 intent.putExtra("questions", (Serializable) questions);
                 startActivity(intent);
-                finish();
             }
             });
         }
