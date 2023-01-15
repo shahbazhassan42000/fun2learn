@@ -1,5 +1,7 @@
 package shahbaz4311.fun2learn.utils;
 
+import static java.text.DateFormat.getDateTimeInstance;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +11,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.Date;
+import java.util.List;
+
+import shahbaz4311.fun2learn.models.Question;
 import shahbaz4311.fun2learn.models.User;
 
 public class DBMS extends SQLiteOpenHelper {
@@ -99,10 +105,10 @@ public class DBMS extends SQLiteOpenHelper {
     public boolean login(User user) {
         try (SQLiteDatabase db = getReadableDatabase()) {
             String query = "SELECT * FROM " + USER_TABLE + " WHERE " + USERNAME + " = '" + user.getUsername() + "';";
-            Cursor cursor=db.rawQuery(query, null);
-            if(cursor.moveToFirst()){
-                @SuppressLint("Range") String pass=cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
-                boolean res=pass.equals(PASSWORD.encrypt(user.getPassword()));
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                @SuppressLint("Range") String pass = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
+                boolean res = pass.equals(PASSWORD.encrypt(user.getPassword()));
                 cursor.close();
                 return res;
             }
@@ -114,4 +120,24 @@ public class DBMS extends SQLiteOpenHelper {
     }
 
 
+    //store quiz result against given user
+    public void add_result(List<Question> questions, User user) {
+        try (SQLiteDatabase db = getWritableDatabase()) {
+            for (Question question : questions) {
+                ContentValues values = new ContentValues();
+                values.put(QUIZ_DATE, getDateTimeInstance().format(question.getDate()));
+                values.put(QUESTION, question.getQuestion());
+                values.put(OPTION1, question.getOptions().get(0));
+                values.put(OPTION2, question.getOptions().get(1));
+                values.put(OPTION3, question.getOptions().get(2));
+                values.put(OPTION4, question.getOptions().get(3));
+                values.put(ANSWER, question.getCorrectAnswer());
+                values.put(USER_ANSWER, question.getUserAnswer());
+                values.put(USERNAME, user.getUsername());
+                db.insert(QUIZ_TABLE, null, values);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

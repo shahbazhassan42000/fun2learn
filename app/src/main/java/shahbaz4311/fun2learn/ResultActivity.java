@@ -1,5 +1,7 @@
 package shahbaz4311.fun2learn;
 
+import static java.text.DateFormat.getDateTimeInstance;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -16,7 +18,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.CompoundButtonCompat;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import shahbaz4311.fun2learn.models.Question;
@@ -47,7 +49,7 @@ public class ResultActivity extends AppCompatActivity {
         inpName = findViewById(R.id.userName);
         dateTime = findViewById(R.id.dateTime);
         inpName.setText(user.getUsername());
-        dateTime.setText(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
+        dateTime.setText(getDateTimeInstance().format(new Date()));
 
         for (Question question : questions) {
             createResult(question);

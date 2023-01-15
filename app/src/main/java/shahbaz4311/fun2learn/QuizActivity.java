@@ -21,23 +21,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import shahbaz4311.fun2learn.models.Question;
 import shahbaz4311.fun2learn.models.User;
+import shahbaz4311.fun2learn.utils.DBMS;
 
 public class QuizActivity extends AppCompatActivity {
 
     Intent intent;
-    TextView inpName, dateTime, marks, quesInp;
+    TextView inpName, dateTime, quesInp;
     RadioButton[] options;
     RadioGroup optionsGroup;
     Button nextQuesBtn, prevQuesBtn, submitBtn;
     List<Question> questions;
-    LinearLayout main;
     int quesNo;
     User user;
-
+    DBMS dbms;
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +48,11 @@ public class QuizActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("user");
         questions=new ArrayList<>();
 
-        //enable vertical scroll bar
-        main = findViewById(R.id.quizMainLayout);
-        main.setVerticalScrollBarEnabled(true);
 
         //load questions
         questions = loadQuestions("HTMLQuestions.txt");
 
 
-
-
-        marks = findViewById(R.id.marks);
         inpName = findViewById(R.id.userName);
         dateTime = findViewById(R.id.dateTime);
         inpName.setText(user.getUsername());
@@ -104,6 +99,8 @@ public class QuizActivity extends AppCompatActivity {
             if (marked != 10) {
                 Toast.makeText(this, "Please answer all questions", Toast.LENGTH_SHORT).show();
             } else {
+                add_timestamp();
+                store_result();
                 finish();
                 intent = new Intent(this, ResultActivity.class);
                 intent.putExtra("user", user);
@@ -113,7 +110,19 @@ public class QuizActivity extends AppCompatActivity {
             });
         }
 
-        private void checkOptions() {
+    private void store_result() {
+        //store questions in database
+        dbms = new DBMS(this, null, 1);
+        dbms.add_result(questions, user);
+    }
+
+    private void add_timestamp() {
+        for(Question question:questions){
+            question.setDate(new Date());
+        }
+    }
+
+    private void checkOptions() {
             int selected = optionsGroup.getCheckedRadioButtonId();
             if (selected != -1 ){
                 RadioButton selectedChoice = findViewById(selected);

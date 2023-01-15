@@ -2,8 +2,10 @@ package shahbaz4311.fun2learn.models;
 
 import androidx.annotation.NonNull;
 
+import java.io.DataInput;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class Question implements Serializable {
@@ -11,6 +13,8 @@ public class Question implements Serializable {
     private final List<String> options;
     private String correctAnswer;
     private String userAnswer="";
+
+    private Date date;
 
     public Question(String question, List<String> options, String correctAnswer) {
         this.question = question;
@@ -57,4 +61,11 @@ public class Question implements Serializable {
         return question + "\t" +correctAnswer + "\t" + userAnswer;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

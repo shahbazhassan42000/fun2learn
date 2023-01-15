@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".keyActivity">
+    tools:context=".ResultActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/resultMainLayout"
         android:background="@color/bg_gray"
         android:padding="10sp"
-        android:scrollbars="vertical"
         android:orientation="vertical">
         <TableLayout
             android:layout_marginTop="10sp"
@@ -25,7 +24,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/name"
+                    android:text="@string/username"
                     android:textColor="@color/white"
                     android:padding="10sp"
                     android:background="@color/primary"
