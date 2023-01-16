@@ -6,7 +6,7 @@
     <string name="marks">Marks</string>
     <string name="_0_10">0/10</string>
     <string name="submit">Submit Quiz</string>
-    <string name="result">Result</string>
+    <string name="result">RESULT</string>
     <string name="start_quiz">Start Quiz</string>
     <string name="logo">Logo</string>
     <string name="username">Username</string>
@@ -20,9 +20,12 @@
     <string name="username_exist">Username already exist</string>
     <string name="account_created_failed">ERROR!!! While signup, Please try again</string>
     <string name="login_success">Login successfully</string>
-    <string name="login_failed" >Invalid credentials</string>
+    <string name="login_failed">Invalid credentials</string>
     <string name="welcome_text">Welcome to Fun2Learn</string>
     <string name="take_quiz">Take Quiz</string>
     <string name="logout">Logout</string>
+    <string name="history">HISTORY</string>
+    <string name="sr">Sr#</string>
+    <string name="date">Date</string>
 
 </resources>

@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -139,5 +140,29 @@ public class DBMS extends SQLiteOpenHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //get date and count of correct marks from quiz table
+    public List<List<Object>> get_user_quizzes(User user) {
+        try (SQLiteDatabase db = getReadableDatabase()) {
+            //select date,count(user_answer) from quiz where answer=user_answer group by date order by date;
+            String query = "SELECT " + QUIZ_DATE + ", COUNT(" + USER_ANSWER + ") FROM " + QUIZ_TABLE + " WHERE " + USERNAME + " = '" + user.getUsername() + "' AND " + ANSWER + " = " + USER_ANSWER + " GROUP BY " + QUIZ_DATE + " ORDER BY " + QUIZ_DATE + ";";
+            Cursor cursor = db.rawQuery(query, null);
+            List<List<Object>> list = new ArrayList<>();
+            int i=0;
+            while (cursor.moveToNext()) {
+                List<Object> row = new ArrayList<>();
+                row.add(i);
+                row.add(cursor.getString(0));
+                row.add(cursor.getInt(1));
+                list.add(row);
+                i++;
+            }
+            cursor.close();
+            return list;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 }
