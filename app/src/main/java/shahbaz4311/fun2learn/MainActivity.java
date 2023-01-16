@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //TODO: remove after testing homepage
         //put user in intent
-//        user=new User("shahbaz","Hum-2977");
-//        Intent intent = new Intent(this, HomeActivity.class);
-//        intent.putExtra("user", user);
-//        startActivity(intent);
-//        finish();
+        user=new User("shahbaz","Hum-2977");
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+        finish();
 
 
 

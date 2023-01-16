@@ -30,6 +30,14 @@ public class Question implements Serializable {
         this.userAnswer = userAnswer;
     }
 
+    public Question(String question, List<String> options, String answer, String user_answer, Date date) {
+        this.question = question;
+        this.options = options;
+        this.correctAnswer = answer;
+        this.userAnswer = user_answer;
+        this.date = date;
+    }
+
     public void setUserAnswer(String userAnswer) {
         this.userAnswer = userAnswer;
     }

@@ -4,17 +4,24 @@ import static java.text.DateFormat.getDateTimeInstance;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import shahbaz4311.fun2learn.models.Question;
 import shahbaz4311.fun2learn.models.User;
+import shahbaz4311.fun2learn.utils.DBMS;
 import shahbaz4311.fun2learn.utils.QuizAdapter;
 
 public class History extends AppCompatActivity {
@@ -24,6 +31,7 @@ public class History extends AppCompatActivity {
 //    String[] quizzes_array;
     List<SpannableString> quizzes_array;
     User user;
+    DBMS dbms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,31 +53,24 @@ public class History extends AppCompatActivity {
         //set adapter to list view
         history_list.setAdapter(quizAdapter);
 
-//        //convert list to array
-//        quizzes_array = new List<SpannableString>();
-//        for (int i = 0; i < quizzes.size(); i++) {
-//            quizzes_array.set(i, formattedHTMLStr(i));
-//        }
-//
-//        //add these quizzes to the list view
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.simple_list_white_text,R.id.list_content, quizzes_array);
-//        history_list.setAdapter(adapter);
 
+        //set on item click listener
+        history_list.setOnItemClickListener((parent, view, position, id) -> {
+            //get quiz
+            List<Object> quiz = quizzes.get(position);
+            //get quiz date
+            String quiz_date =quiz.get(1).toString();
+            //get quiz result from db
+            dbms = new DBMS(this, null, 1);
+            List<Question> questions = dbms.get_result(quiz_date, user);
+            if (questions != null) {
+                //load result activity
+                Intent intent = new Intent(this, ResultActivity.class);
+                intent.putExtra("questions", (Serializable) questions);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
 
-
-
-
-
+        });
     }
-
-//    private SpannableString formattedHTMLStr (int index){
-//        String[] quiz = quizzes.get(index);
-//        int score = Integer.parseInt(quiz[1]);
-//        String text=String.format("%1$-6s %2$-30s %3$02d/10",String.valueOf(index)+".",quiz[0],score);
-//        SpannableString spanText = new SpannableString(text);
-//        spanText.setSpan(new ForegroundColorSpan(getColor(R.color.yellow)), 0, 6, 0);
-//        spanText.setSpan(new ForegroundColorSpan(getColor(R.color.black)), 6, 36, 0);
-//        spanText.setSpan(new ForegroundColorSpan(score>5?getColor(R.color.green):getColor(R.color.red)), 36, 40, 0);
-//        return spanText;
-//    }
 }

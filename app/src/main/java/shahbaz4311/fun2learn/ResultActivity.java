@@ -49,7 +49,7 @@ public class ResultActivity extends AppCompatActivity {
         inpName = findViewById(R.id.userName);
         dateTime = findViewById(R.id.dateTime);
         inpName.setText(user.getUsername());
-        dateTime.setText(getDateTimeInstance().format(new Date()));
+        dateTime.setText(getDateTimeInstance().format(questions.get(0).getDate()));
 
         for (Question question : questions) {
             createResult(question);

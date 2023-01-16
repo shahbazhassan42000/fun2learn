@@ -165,4 +165,30 @@ public class DBMS extends SQLiteOpenHelper {
         }
 
     }
+
+    @SuppressLint("Range")
+    //get quiz result for given date and user
+    public List<Question> get_result(String quiz_date, User user) {
+        try (SQLiteDatabase db = getReadableDatabase()) {
+            String query = "SELECT * FROM " + QUIZ_TABLE + " WHERE " + USERNAME + " = '" + user.getUsername() + "' AND " + QUIZ_DATE + " = '" + quiz_date + "';";
+            Cursor cursor = db.rawQuery(query, null);
+            List<Question> list = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                String question=cursor.getString(cursor.getColumnIndex(QUESTION));
+                List<String> options = new ArrayList<>();
+                options.add(cursor.getString(cursor.getColumnIndex(OPTION1)));
+                options.add(cursor.getString(cursor.getColumnIndex(OPTION2)));
+                options.add(cursor.getString(cursor.getColumnIndex(OPTION3)));
+                options.add(cursor.getString(cursor.getColumnIndex(OPTION4)));
+                String answer=cursor.getString(cursor.getColumnIndex(ANSWER));
+                String user_answer=cursor.getString(cursor.getColumnIndex(USER_ANSWER));
+                Date date = getDateTimeInstance().parse(cursor.getString(cursor.getColumnIndex(QUIZ_DATE)));
+                list.add(new Question(question,options,answer,user_answer,date));
+            }
+            cursor.close();
+            return list;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

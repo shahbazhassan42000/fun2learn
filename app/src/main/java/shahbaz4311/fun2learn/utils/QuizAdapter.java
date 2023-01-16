@@ -1,6 +1,7 @@
 package shahbaz4311.fun2learn.utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,14 @@ import java.util.List;
 import shahbaz4311.fun2learn.R;
 
 public class QuizAdapter extends BaseAdapter {
-    private Context context;
-    private List<List<Object>> quizzes;
+    private final Context context;
+    private final List<List<Object>> quizzes;
 
     public QuizAdapter(Context context, List<List<Object>> quizzes) {
         this.context = context;
         this.quizzes = quizzes;
     }
+
 
     @Override
     public int getViewTypeCount() {
@@ -75,10 +77,14 @@ public class QuizAdapter extends BaseAdapter {
             holder.quiz_marks.setTextColor(context.getColor(R.color.green));
         }
 
+
+
         return convertView;
     }
 
-    private class ViewHolder {
+
+
+    private static class ViewHolder {
 
         protected TextView quiz_no, quiz_date, quiz_marks;
 
