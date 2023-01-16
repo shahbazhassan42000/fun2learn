@@ -1,6 +1,7 @@
 package shahbaz4311.fun2learn;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,8 +50,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         quiz_btn.setOnClickListener(this);
         history_btn.setOnClickListener(this);
         github_btn.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -86,10 +85,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.github_btn:
                 //TODO: set link of github repo
                 //https://github.com/shahbazhassan42000/fun2learn/commits/main
-
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://github.com/shahbazhassan42000/fun2learn/commits/main"));
+                startActivity(intent);
                 break;
         }
-
     }
-
 }
