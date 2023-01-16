@@ -27,5 +27,6 @@
     <string name="history">HISTORY</string>
     <string name="sr">Sr#</string>
     <string name="date">Date</string>
+    <string name="github_repository_commits">Github Repository Commits</string>
 
 </resources>

@@ -94,6 +94,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/logout" />
 
+                    <Button
+                        android:id="@+id/github_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/github_repository_commits"
+                        />
+
 
                 </LinearLayout>
             </ScrollView>

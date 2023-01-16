@@ -47,30 +47,33 @@ public class History extends AppCompatActivity {
         history_list = findViewById(R.id.history_list);
 
 
-        //create quiz adapter
-        QuizAdapter quizAdapter = new QuizAdapter(this, quizzes);
+       if(quizzes.size() !=0){
+           //create quiz adapter
+           QuizAdapter quizAdapter = new QuizAdapter(this, quizzes);
 
-        //set adapter to list view
-        history_list.setAdapter(quizAdapter);
+           //set adapter to list view
+           history_list.setAdapter(quizAdapter);
 
 
-        //set on item click listener
-        history_list.setOnItemClickListener((parent, view, position, id) -> {
-            //get quiz
-            List<Object> quiz = quizzes.get(position);
-            //get quiz date
-            String quiz_date =quiz.get(1).toString();
-            //get quiz result from db
-            dbms = new DBMS(this, null, 1);
-            List<Question> questions = dbms.get_result(quiz_date, user);
-            if (questions != null) {
-                //load result activity
-                Intent intent = new Intent(this, ResultActivity.class);
-                intent.putExtra("questions", (Serializable) questions);
-                intent.putExtra("user", user);
-                startActivity(intent);
-            }
+           //set on item click listener
+           history_list.setOnItemClickListener((parent, view, position, id) -> {
+               //get quiz
+               List<Object> quiz = quizzes.get(position);
+               //get quiz date
+               String quiz_date =quiz.get(1).toString();
+               //get quiz result from db
+               dbms = new DBMS(this, null, 1);
+               List<Question> questions = dbms.get_result(quiz_date, user);
+               if (questions != null) {
+                   //load result activity
+                   Intent intent = new Intent(this, ResultActivity.class);
+                   intent.putExtra("questions", (Serializable) questions);
+                   intent.putExtra("user", user);
+                   startActivity(intent);
+               }
 
-        });
+           });
+       }
+
     }
 }

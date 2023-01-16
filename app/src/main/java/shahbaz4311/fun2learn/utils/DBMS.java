@@ -146,10 +146,10 @@ public class DBMS extends SQLiteOpenHelper {
     public List<List<Object>> get_user_quizzes(User user) {
         try (SQLiteDatabase db = getReadableDatabase()) {
             //select date,count(user_answer) from quiz where answer=user_answer group by date order by date;
-            String query = "SELECT " + QUIZ_DATE + ", COUNT(" + USER_ANSWER + ") FROM " + QUIZ_TABLE + " WHERE " + USERNAME + " = '" + user.getUsername() + "' AND " + ANSWER + " = " + USER_ANSWER + " GROUP BY " + QUIZ_DATE + " ORDER BY " + QUIZ_DATE + ";";
+            String query = "SELECT " + QUIZ_DATE + ", COUNT(" + USER_ANSWER + ") FROM " + QUIZ_TABLE + " WHERE " + USERNAME + " = '" + user.getUsername() + "' AND " + ANSWER + " = " + USER_ANSWER + " GROUP BY " + QUIZ_DATE + " ORDER BY " + QUIZ_DATE + " DESC;";
             Cursor cursor = db.rawQuery(query, null);
             List<List<Object>> list = new ArrayList<>();
-            int i=0;
+            int i=1;
             while (cursor.moveToNext()) {
                 List<Object> row = new ArrayList<>();
                 row.add(i);
